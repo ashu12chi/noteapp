@@ -1,77 +1,137 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:noteapp/app_screens/note_list.dart';
+import 'package:noteapp/inherited_widgets/note_inherited_widget.dart';
 
-enum NoteNode {
+enum NoteMode {
   Editing,
   Adding
 }
 
-class Note extends StatelessWidget {
+class Note extends StatefulWidget {
 
-  final NoteNode _noteNode;
+  final NoteMode noteMode;
+  final int index;
 
-  const Note(this._noteNode);
+  Note(this.noteMode, this.index);
+
+  @override
+  NoteState createState() {
+    return new NoteState();
+  }
+}
+
+class NoteState extends State<Note> {
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
+
+  List<Map<String, String>> get _notes => NoteInheritedWidget.of(context).notes;
+
+  @override
+  void didChangeDependencies() {
+    if (widget.noteMode == NoteMode.Editing) {
+      _titleController.text = _notes[widget.index]['title'];
+      _textController.text = _notes[widget.index]['text'];
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-              _noteNode == NoteNode.Adding?"Add Note":"Edit Note"),
+      appBar: AppBar(
+        title: Text(
+            widget.noteMode == NoteMode.Adding ? 'Add note' : 'Edit note'
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: Column(
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(
-                    hintText: "Note Title"
-                ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                  hintText: 'Note title'
               ),
-              Container(height: 16,),
-              TextField(
-                decoration: InputDecoration(
-                    hintText: "Note Text"
-                ),
+            ),
+            Container(height: 8,),
+            TextField(
+              controller: _textController,
+              decoration: InputDecoration(
+                  hintText: 'Note text'
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  _NoteButton("Save",Colors.blue,(){
-                    Navigator.pop(context);
+            ),
+            Container(height: 16.0,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _NoteButton('Save', Colors.blue, () {
+                  final title = _titleController.text;
+                  final text = _textController.text;
+
+                  if (widget?.noteMode == NoteMode.Adding) {
+                    _notes.add({
+                      'title': title,
+                      'text': text
+                    });
+                  } else if (widget?.noteMode == NoteMode.Editing) {
+                    _notes[widget.index] = {
+                      'title': title,
+                      'text': text
+                    };
+                  }
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => NoteList()),
+                        (Route<dynamic> route) => false,
+                  );
+                }),
+                Container(height: 16.0,),
+                _NoteButton('Discard', Colors.grey, () {
+                  Navigator.pop(context);
+                }),
+                widget.noteMode == NoteMode.Editing ?
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: _NoteButton('Delete', Colors.red, () {
+                    _notes.removeAt(widget.index);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => NoteList()),
+                          (Route<dynamic> route) => false,
+                    );
                   }),
-                  _NoteButton("Discard",Colors.grey,(){
-                    Navigator.pop(context);
-                  }),
-                  _noteNode == NoteNode.Editing?
-                  _NoteButton("Delete",Colors.red,(){
-                    Navigator.pop(context);
-                  }):Container(),
-                ],
-              )
-            ],
-          ),
-        )
+                )
+                    : Container()
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
 
 class _NoteButton extends StatelessWidget {
-  @override
+
   final String _text;
   final Color _color;
   final Function _onPressed;
 
-  _NoteButton(this._text,this._color,this._onPressed);
+  _NoteButton(this._text, this._color, this._onPressed);
 
+  @override
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: _onPressed,
-      child: Text(_text,
+      child: Text(
+        _text,
         style: TextStyle(color: Colors.white),
       ),
       height: 40,
-      minWidth: 90,
+      minWidth: 80,
       color: _color,
     );
   }

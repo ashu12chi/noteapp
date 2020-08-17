@@ -1,42 +1,57 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:noteapp/inherited_widgets/note_inherited_widget.dart';
 import 'note.dart';
 
-class NoteList extends StatelessWidget {
+class NoteList extends StatefulWidget {
+
+  @override
+  NoteListState createState() {
+    return new NoteListState();
+  }
+}
+
+class NoteListState extends State<NoteList> {
+
+  List<Map<String, String>> get _notes => NoteInheritedWidget.of(context).notes;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return Scaffold(
       appBar: AppBar(
-        title: Text("Notes"),
+        title: Text('Notes'),
       ),
       body: ListView.builder(
-        itemBuilder: (context,index){
+        itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: (){
-              Navigator.push(context,MaterialPageRoute(
-                  builder: (context) => Note(NoteNode.Editing)));
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Note(NoteMode.Editing, index))
+              );
             },
-            child: Card (
+            child: Card(
               child: Padding(
-                padding: const EdgeInsets.only(top: 30.0,bottom: 20.0,left: 15.0,right: 21.0),
-                child: Column (
+                padding: const EdgeInsets.only(top: 30.0, bottom: 30, left: 15.0, right: 21.0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget> [
-                    _NoteTitle(),
-                    Container(height:4),
-                    _NoteText(),
+                  children: <Widget>[
+                    _NoteTitle(_notes[index]['title']),
+                    Container(height: 4,),
+                    _NoteText(_notes[index]['text'])
                   ],
                 ),
               ),
             ),
           );
         },
+        itemCount: _notes.length,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context,MaterialPageRoute(
-              builder: (context) => Note(NoteNode.Adding))
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Note(NoteMode.Adding, null))
           );
         },
         child: Icon(Icons.add),
@@ -46,20 +61,31 @@ class NoteList extends StatelessWidget {
 }
 
 class _NoteTitle extends StatelessWidget {
+  final String _title;
+
+  _NoteTitle(this._title);
+
   @override
   Widget build(BuildContext context) {
-    return  Text("Some Title",
+    return Text(
+      _title,
       style: TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.bold
-      ),);
+      ),
+    );
   }
 }
 
-class _NoteText extends StatelessWidget{
+class _NoteText extends StatelessWidget {
+  final String _text;
+
+  _NoteText(this._text);
+
   @override
   Widget build(BuildContext context) {
-    return Text("Some text",
+    return Text(
+      _text,
       style: TextStyle(
           color: Colors.grey.shade600
       ),
@@ -67,5 +93,4 @@ class _NoteText extends StatelessWidget{
       overflow: TextOverflow.ellipsis,
     );
   }
-
 }
