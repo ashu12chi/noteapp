@@ -32,3 +32,7 @@ Either just try installing the debug APK from [this link](https://github.com/ash
 |  |  |  |
 |--|--|--|
 |Notes List ![Notes List](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/notes.png?raw=true)|Add Note ![Add Note](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/addnote.png?raw=true)|Edit Note ![Edit Note](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/editnote.png?raw=true)|
+
+## Future plan
+
+This is a very basic version of the app and I am going to implement a lot of features in this app (secret for now).
