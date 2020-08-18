@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/app_screens/note_list.dart';
 import 'package:noteapp/inherited_widgets/note_inherited_widget.dart';
+import 'package:noteapp/providers/note_provider.dart';
 
 enum NoteMode {
   Editing,
@@ -11,9 +12,9 @@ enum NoteMode {
 class Note extends StatefulWidget {
 
   final NoteMode noteMode;
-  final int index;
+  final Map<String, dynamic> note;
 
-  Note(this.noteMode, this.index);
+  Note(this.noteMode, this.note);
 
   @override
   NoteState createState() {
@@ -31,8 +32,8 @@ class NoteState extends State<Note> {
   @override
   void didChangeDependencies() {
     if (widget.noteMode == NoteMode.Editing) {
-      _titleController.text = _notes[widget.index]['title'];
-      _textController.text = _notes[widget.index]['text'];
+      _titleController.text = widget.note['title'];
+      _textController.text = widget.note['text'];
     }
     super.didChangeDependencies();
   }
@@ -72,15 +73,16 @@ class NoteState extends State<Note> {
                   final text = _textController.text;
 
                   if (widget?.noteMode == NoteMode.Adding) {
-                    _notes.add({
+                    NoteProvider.insertNote({
                       'title': title,
                       'text': text
                     });
                   } else if (widget?.noteMode == NoteMode.Editing) {
-                    _notes[widget.index] = {
-                      'title': title,
-                      'text': text
-                    };
+                    NoteProvider.updateNote({
+                      'id': widget.note['id'],
+                      'title': _titleController.text,
+                      'text': _textController.text,
+                    });
                   }
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -95,8 +97,8 @@ class NoteState extends State<Note> {
                 widget.noteMode == NoteMode.Editing ?
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: _NoteButton('Delete', Colors.red, () {
-                    _notes.removeAt(widget.index);
+                  child: _NoteButton('Delete', Colors.red, () async {
+                    await NoteProvider.deleteNote(widget.note['id']);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => NoteList()),
