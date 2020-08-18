@@ -59,6 +59,8 @@ class NoteState extends State<Note> {
             ),
             Container(height: 8,),
             TextField(
+              keyboardType: TextInputType.multiline,
+              maxLines: 5,
               controller: _textController,
               decoration: InputDecoration(
                   hintText: 'Note text'
