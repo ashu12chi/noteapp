@@ -1,16 +1,31 @@
 # noteapp
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)<br>
+A simple note app using Flutter.
 
-A new Flutter application.
+## The Process Flow
 
-## Getting Started
+1. Save your important notes with title.
+2. Edit already added notes.
+3. Delete notes that are no longer useful.
 
-This project is a starting point for a Flutter application.
+## Special Features
 
-A few resources to get you started if this is your first Flutter project:
+1. Notes are saved in mobile using sqflite database, so no internet connection is required.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## APIs and Components used
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Flutter.
+2. Material components.
+3. sqflite.
+
+## To try hands on the project
+Either just try installing the debug APK from [this link](); OR:
+1. Clone the project using link: https://github.com/ashu12chi/noteapp.git
+2. Import the project in Android Studio
+3. Deploy the app to your Android or ios device and viola... you are good to go!
+
+## Screenshots
+
+|  |  |  |
+|--|--|--|
