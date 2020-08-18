@@ -20,7 +20,7 @@ A simple note app using Flutter.
 3. sqflite.
 
 ## To try hands on the project
-Either just try installing the debug APK from [this link](); OR:
+Either just try installing the debug APK from [this link](https://github.com/ashu12chi/noteapp/blob/master/app-release.apk); OR:
 1. Clone the project using link: https://github.com/ashu12chi/noteapp.git
 2. Import the project in Android Studio
 3. Deploy the app to your Android or ios device and viola... you are good to go!
@@ -29,3 +29,4 @@ Either just try installing the debug APK from [this link](); OR:
 
 |  |  |  |
 |--|--|--|
+|Notes List ![Notes List](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/notes.png?raw=true)|Add Note ![Add Note](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/addnote.png?raw=true)|Edit Note ![Edit Note](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/editnote.png?raw=true)|
