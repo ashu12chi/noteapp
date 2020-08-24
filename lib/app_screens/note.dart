@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:noteapp/app_screens/note_list.dart';
 import 'package:noteapp/inherited_widgets/note_inherited_widget.dart';
 import 'package:noteapp/providers/note_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:noteapp/providers/notification_dialogue.dart';
 
 enum NoteMode {
   Editing,
@@ -26,6 +28,8 @@ class NoteState extends State<Note> {
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
   List<Map<String, String>> get _notes => NoteInheritedWidget.of(context).notes;
 
@@ -51,6 +55,8 @@ class NoteState extends State<Note> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            widget.noteMode == NoteMode.Adding?
+            Text(dateFormat.format(selectedDate)):Container(),
             TextField(
               controller: _titleController,
               decoration: InputDecoration(
@@ -60,7 +66,7 @@ class NoteState extends State<Note> {
             Container(height: 8,),
             TextField(
               keyboardType: TextInputType.multiline,
-              maxLines: 5,
+              maxLines: widget.noteMode == NoteMode.Adding?4:5,
               controller: _textController,
               decoration: InputDecoration(
                   hintText: 'Note text'
@@ -108,7 +114,17 @@ class NoteState extends State<Note> {
                     );
                   }),
                 )
-                    : Container()
+                    : Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: _NoteButton('Add Notify', Colors.orange, () async {
+                      showDateTimeDialog(context, initialDate: selectedDate,
+                      onSelectedDate: (selectedDate) {
+                      setState(() {
+                      this.selectedDate = selectedDate;
+                      });
+                      });
+                  }),
+                )
               ],
             )
           ],
