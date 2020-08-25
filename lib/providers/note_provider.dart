@@ -9,7 +9,7 @@ class NoteProvider {
       join(await getDatabasesPath(),"notes.db"),
       version: 1,
       onCreate: (Database db,int version) async {
-        db.execute('''create table notes(id integer primary key autoincrement,title text not null, text textnot null)''');
+        db.execute('''create table notes(id integer primary key autoincrement,title text not null, text text not null, datetime text)''');
       }
     );
   }

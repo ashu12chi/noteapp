@@ -28,16 +28,17 @@ class NoteState extends State<Note> {
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
+  final TextEditingController _dateTimeController = TextEditingController();
+
   DateTime selectedDate = DateTime.now();
   final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
-
-  List<Map<String, String>> get _notes => NoteInheritedWidget.of(context).notes;
 
   @override
   void didChangeDependencies() {
     if (widget.noteMode == NoteMode.Editing) {
       _titleController.text = widget.note['title'];
       _textController.text = widget.note['text'];
+      _dateTimeController.text = widget.note['datetime'];
     }
     super.didChangeDependencies();
   }
@@ -56,7 +57,7 @@ class NoteState extends State<Note> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             widget.noteMode == NoteMode.Adding?
-            Text(dateFormat.format(selectedDate)):Container(),
+            Text(dateFormat.format(selectedDate)):Text(_dateTimeController.text),
             TextField(
               controller: _titleController,
               decoration: InputDecoration(
@@ -79,17 +80,21 @@ class NoteState extends State<Note> {
                 _NoteButton('Save', Colors.blue, () {
                   final title = _titleController.text;
                   final text = _textController.text;
+                  final datetime = _dateTimeController.text;
 
                   if (widget?.noteMode == NoteMode.Adding) {
+                    print(title+ " " +text+" "+datetime);
                     NoteProvider.insertNote({
                       'title': title,
-                      'text': text
+                      'text': text,
+                      'datetime' : datetime
                     });
                   } else if (widget?.noteMode == NoteMode.Editing) {
                     NoteProvider.updateNote({
                       'id': widget.note['id'],
                       'title': _titleController.text,
                       'text': _textController.text,
+                      'datetime' : datetime
                     });
                   }
                   Navigator.pushAndRemoveUntil(
@@ -121,6 +126,7 @@ class NoteState extends State<Note> {
                       onSelectedDate: (selectedDate) {
                       setState(() {
                       this.selectedDate = selectedDate;
+                      _dateTimeController.text = selectedDate.toString().substring(0,16);
                       });
                       });
                   }),

@@ -39,7 +39,7 @@ class NoteListState extends State<NoteList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          _NoteTitle(notes[index]['title']),
+                          _NoteTitle(notes[index]['title'],notes[index]['datetime']),
                           Container(height: 4,),
                           _NoteText(notes[index]['text'])
                         ],
@@ -69,17 +69,29 @@ class NoteListState extends State<NoteList> {
 
 class _NoteTitle extends StatelessWidget {
   final String _title;
+  final String _datetime;
 
-  _NoteTitle(this._title);
+  _NoteTitle(this._title,this._datetime);
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      _title,
-      style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold
-      ),
+    return Row (
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment : MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          _title,
+          style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+        _datetime.length == 0?Container():Image(
+            image: AssetImage('assets/icon/alarm.png'),
+            height: 40.0,
+            width: 40.0,
+        )
+      ],
     );
   }
 }

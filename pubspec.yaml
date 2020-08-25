@@ -55,6 +55,7 @@ flutter:
 
   assets:
     - assets/icon/icon.png
+    - assets/icon/alarm.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
