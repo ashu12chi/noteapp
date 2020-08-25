@@ -38,7 +38,8 @@ Either just try installing the APK from [this link](https://github.com/ashu12chi
 |  |  |  |
 |--|--|--|
 |Notes List ![Notes List](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/notes.png?raw=true)|Add Note ![Add Note](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/addnote.png?raw=true)|Edit Note ![Edit Note](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/editnote.png?raw=true)|
-|Splash Screen ![Splash Screen](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/splashscreen.png?raw=true)|Fingerprint Scanner ![Fingerprint Scanner](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/fingerscanner.png?raw=true)|Select time ![Select time](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/selecttime.png?raw=true)|Calender ![Calender](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/calender.png?raw=true)|
+|Splash Screen ![Splash Screen](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/splashscreen.png?raw=true)|Fingerprint Scanner ![Fingerprint Scanner](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/fingerscanner.png?raw=true)|Select time ![Select time](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/selecttime.png?raw=true)|
+Calender ![Calender](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/calender.png?raw=true)|
 
 ## Future plan
 
