@@ -11,11 +11,13 @@ A simple note app using Flutter.
 2. Edit already added notes.
 3. Delete notes that are no longer useful.
 4. Fingerprint security.
+5. Add date and time if required.
 
 ## Special Features
 
 1. Notes are saved in mobile using sqflite database, so no internet connection is required.
 2. Fingerprint scanner for security.
+3. Date and time if needed can also be saved in notes.
 
 ## APIs and Components used
 
@@ -36,7 +38,7 @@ Either just try installing the APK from [this link](https://github.com/ashu12chi
 |  |  |  |
 |--|--|--|
 |Notes List ![Notes List](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/notes.png?raw=true)|Add Note ![Add Note](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/addnote.png?raw=true)|Edit Note ![Edit Note](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/editnote.png?raw=true)|
-|Splash Screen ![Splash Screen](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/splashscreen.png?raw=true)|Fingerprint Scanner ![Fingerprint Scanner](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/fingerscanner.png?raw=true)|
+|Splash Screen ![Splash Screen](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/splashscreen.png?raw=true)|Fingerprint Scanner ![Fingerprint Scanner](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/fingerscanner.png?raw=true)|Select time ![Select time](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/selecttime.png?raw=true)|Calender ![Calender](https://github.com/ashu12chi/noteapp/blob/master/Screnshots/calender.png?raw=true)|
 
 ## Future plan
 
