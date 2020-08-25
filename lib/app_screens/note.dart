@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/app_screens/note_list.dart';
-import 'package:noteapp/inherited_widgets/note_inherited_widget.dart';
 import 'package:noteapp/providers/note_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:noteapp/providers/notification_dialogue.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 enum NoteMode {
   Editing,
@@ -25,6 +25,29 @@ class Note extends StatefulWidget {
 }
 
 class NoteState extends State<Note> {
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  @override
+  void initState() {
+    super.initState();
+    var initializationSettingsAndroid =
+    AndroidInitializationSettings('icon');
+    var initializationSettingsIOs = IOSInitializationSettings();
+    var initSetttings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOs);
+
+    flutterLocalNotificationsPlugin.initialize(initSetttings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payload) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return NewScreen(
+        payload: payload,
+      );
+    }));
+  }
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
@@ -89,6 +112,9 @@ class NoteState extends State<Note> {
                       'text': text,
                       'datetime' : datetime
                     });
+                    if(datetime.length != 0) {
+                        scheduleNotification(selectedDate,title);
+                    }
                   } else if (widget?.noteMode == NoteMode.Editing) {
                     NoteProvider.updateNote({
                       'id': widget.note['id'],
@@ -138,6 +164,26 @@ class NoteState extends State<Note> {
       ),
     );
   }
+
+  Future<void> scheduleNotification(DateTime selectedDate,String title) async {
+    var scheduledNotificationDateTime = selectedDate;
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'channel id',
+      'channel name',
+      'channel description',
+      icon: 'icon',
+      largeIcon: DrawableResourceAndroidBitmap('icon'),
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        title,
+        'Tap to see more',
+        scheduledNotificationDateTime,
+        platformChannelSpecifics);
+  }
 }
 
 class _NoteButton extends StatelessWidget {
@@ -159,6 +205,23 @@ class _NoteButton extends StatelessWidget {
       height: 40,
       minWidth: 80,
       color: _color,
+    );
+  }
+}
+
+class NewScreen extends StatelessWidget {
+  String payload;
+
+  NewScreen({
+    @required this.payload,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(payload),
+      ),
     );
   }
 }
