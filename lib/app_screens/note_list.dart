@@ -19,6 +19,89 @@ class NoteListState extends State<NoteList> {
       appBar: AppBar(
         title: Text('Notes'),
       ),
+      drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text(
+                "Ashutosh Chitranshi"
+              ),
+              accountEmail: Text(
+                "ashutosh7234@gmail.com"
+              ),
+              currentAccountPicture: CircleAvatar(
+                child: Text(
+                  "A",
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey
+                  ),
+                ),
+                backgroundColor: Colors.white,
+              ),
+            ),
+            ListTile (
+              leading: Icon(Icons.perm_identity),
+              title: Text(
+                "Profile"
+              ),
+              onTap: (){
+
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text(
+                "Notes"
+              ),
+              onTap: (){
+
+              },
+              selected: true,
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text(
+                "Settings"
+              ),
+              onTap: (){
+
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.feedback),
+              title: Text(
+                "Feedback"
+              ),
+                onTap: (){
+
+              }
+            ),
+            ListTile(
+              leading: Icon(Icons.note),
+              title: Text(
+                  "About"
+              ),
+              onTap: () {
+
+              },
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ListTile(
+                  leading: Icon(Icons.copyright),
+                  title: Text(
+                    "2020 by Ashutosh Chitranshi"
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
       body: FutureBuilder(
         future: NoteProvider.getNoteList(),
         builder: (context, snapshot) {
