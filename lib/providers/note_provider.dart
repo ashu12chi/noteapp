@@ -1,3 +1,4 @@
+import 'package:noteapp/models/notes_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -14,23 +15,23 @@ class NoteProvider {
     );
   }
 
-  static Future<List<Map<String, dynamic>>> getNoteList() async {
+  static Future<List<NotesModel>> getNoteList() async {
     if (db == null) {
       await open();
     }
-    return await db.query('Notes');
+    return (await db.query('Notes')).map((e) => NotesModel.fromJson(e)).toList();
   }
 
-  static Future insertNote(Map<String, dynamic> note) async {
-    await db.insert('Notes', note);
+  static Future insertNote(NotesModel note) async {
+    await db.insert('Notes', note.toJson());
   }
 
-  static Future updateNote(Map<String, dynamic> note) async {
+  static Future updateNote(NotesModel note) async {
     await db.update(
         'Notes',
-        note,
+        note.toJson(),
         where: 'id = ?',
-        whereArgs: [note['id']]);
+        whereArgs: [note.id]);
   }
 
   static Future deleteNote(int id) async {
