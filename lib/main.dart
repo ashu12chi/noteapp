@@ -111,14 +111,9 @@ class _LocalAuthState extends State<LocalAuth> {
     // authenticate with biometrics
     bool authenticated = false;
     try {
-      authenticated = await auth.authenticateWithBiometrics(
-          localizedReason: 'Touch your finger on the sensor to login',
-          useErrorDialogs: true,
-          stickyAuth: false,
-          androidAuthStrings:
-          AndroidAuthMessages(signInTitle: "Login to HomePage"));
+      authenticated = await auth.authenticate(localizedReason: "Please authenticate to enter");
     } catch (e) {
-      print("error using biometric auth: $e");
+      print("error using auth: $e");
     }
     setState(() {
       isAuth = authenticated ? true : false;
