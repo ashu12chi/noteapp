@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/app_screens/note_list.dart';
+import 'package:noteapp/models/notes_model.dart';
 import 'package:noteapp/providers/note_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:noteapp/providers/notification_dialogue.dart';
@@ -14,7 +15,7 @@ enum NoteMode {
 class Note extends StatefulWidget {
 
   final NoteMode noteMode;
-  final Map<String, dynamic> note;
+  final NotesModel note;
 
   Note(this.noteMode, this.note);
 
@@ -42,7 +43,7 @@ class NoteState extends State<Note> {
   }
 
   Future onSelectNotification(String payload) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+    return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return NewScreen(
         payload: payload,
       );
@@ -59,9 +60,9 @@ class NoteState extends State<Note> {
   @override
   void didChangeDependencies() {
     if (widget.noteMode == NoteMode.Editing) {
-      _titleController.text = widget.note['title'];
-      _textController.text = widget.note['text'];
-      _dateTimeController.text = widget.note['datetime'];
+      _titleController.text = widget.note.title;
+      _textController.text = widget.note.text;
+      _dateTimeController.text = widget.note.dateTime;
     }
     super.didChangeDependencies();
   }
@@ -107,21 +108,21 @@ class NoteState extends State<Note> {
 
                   if (widget?.noteMode == NoteMode.Adding) {
                     print(title+ " " +text+" "+datetime);
-                    NoteProvider.insertNote({
-                      'title': title,
-                      'text': text,
-                      'datetime' : datetime
-                    });
+                    NoteProvider.insertNote(NotesModel(
+                      title: title,
+                      text: text,
+                      dateTime: datetime
+                    ));
                     if(datetime.length != 0) {
                         scheduleNotification(selectedDate,title);
                     }
                   } else if (widget?.noteMode == NoteMode.Editing) {
-                    NoteProvider.updateNote({
-                      'id': widget.note['id'],
-                      'title': _titleController.text,
-                      'text': _textController.text,
-                      'datetime' : datetime
-                    });
+                    NoteProvider.updateNote(NotesModel(
+                      id: widget.note.id,
+                      title: title,
+                      text: text,
+                      dateTime: datetime
+                    ));
                   }
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -137,7 +138,7 @@ class NoteState extends State<Note> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: _NoteButton('Delete', Colors.red, () async {
-                    await NoteProvider.deleteNote(widget.note['id']);
+                    await NoteProvider.deleteNote(widget.note.id);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => NoteList()),
@@ -210,7 +211,7 @@ class _NoteButton extends StatelessWidget {
 }
 
 class NewScreen extends StatelessWidget {
-  String payload;
+  final String payload;
 
   NewScreen({
     @required this.payload,

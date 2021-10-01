@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:noteapp/models/notes_model.dart';
 import 'package:noteapp/providers/note_provider.dart';
 import 'note.dart';
 
@@ -106,14 +107,18 @@ class NoteListState extends State<NoteList> {
         future: NoteProvider.getNoteList(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            final notes = snapshot.data;
+
+            final notes = snapshot.data as List<NotesModel>;
             return ListView.builder(
+              itemCount: notes.length,
               itemBuilder: (context, index) {
+
+                final note = notes[index];
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Note(NoteMode.Editing, notes[index]))
+                        MaterialPageRoute(builder: (context) => Note(NoteMode.Editing, note))
                     );
                   },
                   child: Card(
@@ -122,16 +127,15 @@ class NoteListState extends State<NoteList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          _NoteTitle(notes[index]['title'],notes[index]['datetime']),
+                          _NoteTitle(note.title, note.dateTime),
                           Container(height: 4,),
-                          _NoteText(notes[index]['text'])
+                          _NoteText(note.text)
                         ],
                       ),
                     ),
                   ),
                 );
               },
-              itemCount: notes.length,
             );
           }
           return Center(child: CircularProgressIndicator());

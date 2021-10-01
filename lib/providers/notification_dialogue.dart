@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 Future<TimeOfDay> _selectTime(BuildContext context,
     {@required DateTime initialDate}) {
-  final now = DateTime.now();
+  // final now = DateTime.now();
 
   return showTimePicker(
     context: context,
