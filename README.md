@@ -7,7 +7,7 @@ A simple note app using Flutter.
 
 ## The Process Flow
 
-1. Save your important notes with title.
+1. Save your important notes with respective titles.
 2. Edit already added notes.
 3. Delete notes that are no longer useful.
 4. Fingerprint security.
